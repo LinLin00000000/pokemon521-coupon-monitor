@@ -1,0 +1,69 @@
+{
+  "candidates": [],
+  "group_probe": {
+    "access": "anonymous_public_preview",
+    "attempts": [
+      {
+        "content_type": "text/html; charset=utf-8",
+        "message_count": 0,
+        "requested_url": "https://t.me/s/pokemon_love",
+        "resolved_url": "https://t.me/pokemon_love",
+        "status": 200
+      },
+      {
+        "content_type": "text/html; charset=utf-8",
+        "message_count": 0,
+        "requested_url": "https://t.me/pokemon_love",
+        "resolved_url": "https://t.me/pokemon_love",
+        "status": 200
+      }
+    ],
+    "history_available_without_token": false,
+    "note": "公开预览未返回消息记录；完整交流群历史不在 v1 抓取范围内。",
+    "status": "profile_only",
+    "username": "pokemon_love"
+  },
+  "historical_signal_count": 7,
+  "latest_relevant_post": {
+    "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
+    "freshness": "current_month",
+    "media_urls": [
+      "https://cdn4.telesco.pe/file/bZg0wyL-S-hy0mow-3VagnGZwbli2ni6oZBkTsgEo46HEaz3Ob_nyuEJMHw9qoP0ZemARfozBH3vThJHigjELAHaA4FscF8dxcc0OLavwA0jdrakOl4eBuc1BJg0tbCKrstvE4jZ0CCy5KmTsqoMuhPXdUapz1ck48vQIg5rhArwmUEdqYwOq4KU9P3K6fsMTTMJimvq6NzXQa45Fno_1QhW-eqkn86kV9GLA2uUtc0_mivH1MWrTS9GwFWsZvnTxPag_rfgpBaV5oiB_qZaSZ7IAcQmtLyUgRabAfuAlYFKor3DX2wuklsy6cDVzdT8ce0pjxY7xuNIeD9Lc_osuw.jpg"
+    ],
+    "post_id": 395,
+    "published_at": "2026-08-01T03:44:06+00:00",
+    "signal_kind": "media_clue",
+    "source_url": "https://t.me/pokemon521/395"
+  },
+  "manual_review": [
+    {
+      "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
+      "extraction_method": "media_presence_rule_v1",
+      "freshness": "current_month",
+      "kind": "media_clue",
+      "media_urls": [
+        "https://cdn4.telesco.pe/file/bZg0wyL-S-hy0mow-3VagnGZwbli2ni6oZBkTsgEo46HEaz3Ob_nyuEJMHw9qoP0ZemARfozBH3vThJHigjELAHaA4FscF8dxcc0OLavwA0jdrakOl4eBuc1BJg0tbCKrstvE4jZ0CCy5KmTsqoMuhPXdUapz1ck48vQIg5rhArwmUEdqYwOq4KU9P3K6fsMTTMJimvq6NzXQa45Fno_1QhW-eqkn86kV9GLA2uUtc0_mivH1MWrTS9GwFWsZvnTxPag_rfgpBaV5oiB_qZaSZ7IAcQmtLyUgRabAfuAlYFKor3DX2wuklsy6cDVzdT8ce0pjxY7xuNIeD9Lc_osuw.jpg"
+      ],
+      "needs_manual_review": true,
+      "post_id": 395,
+      "published_at": "2026-08-01T03:44:06+00:00",
+      "reason": "活动文字存在，但兑换码可能只写在图片中；未进行 OCR 或猜码。",
+      "source_url": "https://t.me/pokemon521/395"
+    }
+  ],
+  "non_goals": [
+    "no Telegram login or API token",
+    "no group join or comment interaction",
+    "no OCR or image guessing",
+    "no coupon validation, order creation, or redemption"
+  ],
+  "scanned_message_count": 83,
+  "schema_version": 1,
+  "source": {
+    "access": "anonymous_public_history",
+    "channel": "pokemon521",
+    "extraction": "rules_v1",
+    "history_url": "https://t.me/s/pokemon521"
+  },
+  "status": "media_needs_manual_review"
+}

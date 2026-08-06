@@ -1,0 +1,14 @@
+{
+  "channel": {
+    "username": "pokemon521",
+    "profile_url": "https://t.me/pokemon521",
+    "history_url": "https://t.me/s/pokemon521",
+    "mode": "public_history"
+  },
+  "group": {
+    "username": "pokemon_love",
+    "profile_url": "https://t.me/pokemon_love",
+    "history_url": "https://t.me/s/pokemon_love",
+    "mode": "profile_only"
+  }
+}
