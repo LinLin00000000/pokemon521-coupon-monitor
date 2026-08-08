@@ -28,7 +28,7 @@
     "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
     "freshness": "current_month",
     "media_urls": [
-      "https://cdn4.telesco.pe/file/tX8Km2zwAT-GIrC_9V5ucpZGifbnfN8v8hua6jzJCWiA9CX_wBTV29D8PHwM1bSgK3NRZ9moiZIIP2GpJA5aqRM4F0noO8bBhjsNXFi_0mgr7ir4REj6iJYAaL7da3YxHpoyJF7U_rQmWq7T3mJcrYVKH05HdVc77OpuOuNxbcRmYmfsPtweQPqCcUnP659UWY_jbixk4JYRVbaibmiDd4o7NOdlDZbZ7ctvmOL0Q9u12MB8G9OQiT6oh1udHWFuwvO025rcuwp5ne1PL59eeG9V2Uezq1x1VTx8vIGEvSzw53G_mjDcN3eRkMGwsM3hFlWT6n1UMwh7Hngda4URlQ.jpg"
+      "https://cdn4.telesco.pe/file/GloWyp9UtCnxFWplKb_Ie_ltyEKo7cL8sZpXr8elWK4DMhkk4KWSlO2EIY6svfF3XxK6FlEzj48IMVDScdtCKyJq15lQWf4rTiTzAPMOMbE9hhy8L1FEuQctN8dVXLLhAZtxtX7kevvbjvVtjLZnGiztR02zvjaCn-JFQWWv47eux16Hw8VDXkqcXZedsfxf5CTtBcNFxwrwDGEcG5uSEC5gb8xwQ-sWYfeXG9LNKjivoBeNr_VNAEDBZ9KvRPQsyBHrg8-TPIfEgQq9pBv9A-rOji1ek62MmGJp4xhA-1niXyn31CCqmDKy9QWX4p60i-xKEpjKhO0sJjFLGvGZ1Q.jpg"
     ],
     "post_id": 395,
     "published_at": "2026-08-01T03:44:06+00:00",
@@ -42,7 +42,7 @@
       "freshness": "current_month",
       "kind": "media_clue",
       "media_urls": [
-        "https://cdn4.telesco.pe/file/tX8Km2zwAT-GIrC_9V5ucpZGifbnfN8v8hua6jzJCWiA9CX_wBTV29D8PHwM1bSgK3NRZ9moiZIIP2GpJA5aqRM4F0noO8bBhjsNXFi_0mgr7ir4REj6iJYAaL7da3YxHpoyJF7U_rQmWq7T3mJcrYVKH05HdVc77OpuOuNxbcRmYmfsPtweQPqCcUnP659UWY_jbixk4JYRVbaibmiDd4o7NOdlDZbZ7ctvmOL0Q9u12MB8G9OQiT6oh1udHWFuwvO025rcuwp5ne1PL59eeG9V2Uezq1x1VTx8vIGEvSzw53G_mjDcN3eRkMGwsM3hFlWT6n1UMwh7Hngda4URlQ.jpg"
+        "https://cdn4.telesco.pe/file/GloWyp9UtCnxFWplKb_Ie_ltyEKo7cL8sZpXr8elWK4DMhkk4KWSlO2EIY6svfF3XxK6FlEzj48IMVDScdtCKyJq15lQWf4rTiTzAPMOMbE9hhy8L1FEuQctN8dVXLLhAZtxtX7kevvbjvVtjLZnGiztR02zvjaCn-JFQWWv47eux16Hw8VDXkqcXZedsfxf5CTtBcNFxwrwDGEcG5uSEC5gb8xwQ-sWYfeXG9LNKjivoBeNr_VNAEDBZ9KvRPQsyBHrg8-TPIfEgQq9pBv9A-rOji1ek62MmGJp4xhA-1niXyn31CCqmDKy9QWX4p60i-xKEpjKhO0sJjFLGvGZ1Q.jpg"
       ],
       "needs_manual_review": true,
       "post_id": 395,
@@ -57,7 +57,7 @@
     "no OCR or image guessing",
     "no coupon validation, order creation, or redemption"
   ],
-  "scanned_message_count": 85,
+  "scanned_message_count": 84,
   "schema_version": 1,
   "source": {
     "access": "anonymous_public_history",
