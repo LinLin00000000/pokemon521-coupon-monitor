@@ -80,11 +80,11 @@
   },
   "lock": {
     "candidate": "飞天螳螂",
-    "locked_at": null,
+    "locked_at": "2026-08-17T14:15:21+00:00",
     "month": "2026-08",
-    "observations": 2,
+    "observations": 3,
     "required_observations": 3,
-    "status": "observing"
+    "status": "locked"
   },
   "manual_review": [],
   "non_goals": [
@@ -101,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "comment_candidates"
+  "status": "locked"
 }

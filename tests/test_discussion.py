@@ -66,6 +66,15 @@ class DiscussionTests(unittest.TestCase):
         self.assertEqual(signal[0]["matching_comment_count"], 3)
         self.assertEqual(signal[0]["distinct_author_count"], 3)
 
+    def test_longest_canonical_name_wins_over_substring(self):
+        from discussion import extract_pokemon_candidate
+
+        names = {"地鼠", "三地鼠"}
+        self.assertEqual(extract_pokemon_candidate("我猜是三地鼠吧", names), "三地鼠")
+        self.assertIsNone(
+            extract_pokemon_candidate("三地鼠和飞天螳螂", {"三地鼠", "飞天螳螂"})
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

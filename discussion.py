@@ -21,6 +21,18 @@ from urllib.request import Request, urlopen
 
 USER_AGENT = "pokemon521-coupon-monitor/0.2 (+https://github.com/)"
 PUNCTUATION = "\u3001\u3002\uff0c\uff1b\uff1a\uff01\uff1f\uff09\u3011\u300b\u201d\u2019,.;:!?)]}"
+NON_ANSWER_TERMS = {
+    "官网",
+    "答案",
+    "兑换",
+    "兑换码",
+    "优惠码",
+    "流量",
+    "活动",
+    "成功",
+    "领取",
+    "谢谢",
+}
 
 
 @dataclass(frozen=True)
@@ -152,7 +164,7 @@ def load_pokemon_names(path: Path) -> set[str]:
 
 def extract_pokemon_candidate(text: str, names: set[str]) -> str | None:
     normalized = normalize_answer(text)
-    if not normalized:
+    if not normalized or normalized in NON_ANSWER_TERMS:
         return None
     if normalized in names:
         return normalized
@@ -160,9 +172,18 @@ def extract_pokemon_candidate(text: str, names: set[str]) -> str | None:
     # Accept short natural-language wrappers such as “我猜是飞天螳螂吧”, but
     # only when exactly one known Pokémon name is present.
     matches = [name for name in names if name and name in normalized]
-    if len(matches) != 1:
+    # Short names can be substrings of longer canonical names (for example
+    # 地鼠 -> 三地鼠). Keep a single maximal match, but still reject a
+    # sentence that contains two unrelated Pokémon names.
+    maximal_matches = [
+        name for name in matches
+        if not any(name != other and name in other for other in matches)
+    ]
+    if len(maximal_matches) != 1:
         return None
-    candidate = matches[0]
+    candidate = maximal_matches[0]
+    if candidate in NON_ANSWER_TERMS:
+        return None
     remainder = normalized.replace(candidate, "", 1)
     remainder = re.sub(r"^(?:我猜|猜|答案|我觉得|应该|可能|感觉|就是|是)+", "", remainder)
     remainder = re.sub(r"(?:吧|呢|啊|呀|是|了)+$", "", remainder)

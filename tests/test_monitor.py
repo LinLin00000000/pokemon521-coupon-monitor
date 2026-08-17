@@ -72,6 +72,18 @@ class MonitorTests(unittest.TestCase):
             rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 2)
 
+    def test_canonical_name_table_is_unique_and_complete(self):
+        payload = json.loads(
+            (Path(__file__).parents[1] / "data" / "pokemon_names_zh.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        names = payload["names"]
+        self.assertEqual(len(names), 1025)
+        self.assertEqual(len(set(names)), 1025)
+        self.assertIn("飞天螳螂", names)
+        self.assertIn("厄诡椪", names)
+
     def test_state_lock_requires_three_independent_observations(self):
         month = monitor.current_month_key()
         signal = {

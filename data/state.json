@@ -4,9 +4,10 @@
     "2026-08": {
       "candidate": "飞天螳螂",
       "distinct_author_count": 25,
-      "last_observed_at": "2026-08-17T14:02:44+00:00",
+      "last_observed_at": "2026-08-17T14:15:21+00:00",
+      "locked_at": "2026-08-17T14:15:21+00:00",
       "matching_comment_count": 55,
-      "observations": 2,
+      "observations": 3,
       "run_observations": [
         {
           "candidate": "飞天螳螂",
@@ -21,10 +22,17 @@
           "matching_comment_count": 55,
           "observed_at": "2026-08-17T14:02:44+00:00",
           "post_id": 395
+        },
+        {
+          "candidate": "飞天螳螂",
+          "distinct_author_count": 25,
+          "matching_comment_count": 55,
+          "observed_at": "2026-08-17T14:15:21+00:00",
+          "post_id": 395
         }
       ],
       "source_post_id": 395,
-      "status": "observing"
+      "status": "locked"
     }
   },
   "schema_version": 1
