@@ -20,6 +20,12 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
+from discussion import (
+    collect_public_discussion,
+    extract_comment_consensus,
+    load_pokemon_names,
+)
+
 USER_AGENT = "pokemon521-coupon-monitor/0.1 (+https://github.com/)"
 ACTIVITY_TERMS = (
     "兑换码",
@@ -483,21 +489,139 @@ def signal_view(signal: dict) -> dict:
     return result
 
 
+def load_lock_state(path: Path) -> dict:
+    if not path.exists():
+        return {"schema_version": 1, "lock_observations_required": 3, "months": {}}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid lock state JSON: {path}: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise ValueError(f"lock state must be an object: {path}")
+    payload.setdefault("schema_version", 1)
+    payload.setdefault("lock_observations_required", 3)
+    payload.setdefault("months", {})
+    if not isinstance(payload["months"], dict):
+        raise ValueError(f"lock state months must be an object: {path}")
+    return payload
+
+
+def current_month_key() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m")
+
+
+def select_run_candidate(signals: list[dict]) -> dict | None:
+    grouped: dict[str, list[dict]] = {}
+    for signal in signals:
+        if signal.get("kind") not in {"text_code", "comment_consensus"}:
+            continue
+        if signal_freshness(signal) != "current_month":
+            continue
+        grouped.setdefault(signal.get("code_normalized", ""), []).append(signal)
+
+    ranked: list[tuple[tuple[int, int, int], str, dict]] = []
+    for code, rows in grouped.items():
+        best = max(
+            rows,
+            key=lambda row: (
+                int(row.get("distinct_author_count", 0)),
+                int(row.get("matching_comment_count", 0)),
+                1 if row.get("kind") == "comment_consensus" else 0,
+            ),
+        )
+        score = (
+            int(best.get("distinct_author_count", 0)),
+            int(best.get("matching_comment_count", 0)),
+            len(rows),
+        )
+        ranked.append((score, code, best))
+    if not ranked:
+        return None
+    ranked.sort(reverse=True, key=lambda item: (item[0], item[1]))
+    if len(ranked) > 1 and ranked[0][0] == ranked[1][0]:
+        return None
+    return ranked[0][2]
+
+
+def update_lock_state(state: dict, signals: list[dict], required: int) -> tuple[dict, bool, dict]:
+    month = current_month_key()
+    months = state.setdefault("months", {})
+    before = json.dumps(state, ensure_ascii=False, sort_keys=True)
+    month_state = months.setdefault(
+        month,
+        {
+            "status": "observing",
+            "candidate": None,
+            "observations": 0,
+            "run_observations": [],
+        },
+    )
+    month_state.setdefault("run_observations", [])
+    month_state.setdefault("observations", 0)
+    month_state.setdefault("status", "observing")
+
+    if month_state.get("status") == "locked":
+        return state, before != json.dumps(state, ensure_ascii=False, sort_keys=True), month_state
+
+    selected = select_run_candidate(signals)
+    now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    if selected is not None:
+        candidate = selected.get("code_normalized")
+        if month_state.get("candidate") == candidate:
+            month_state["observations"] = int(month_state.get("observations", 0)) + 1
+        else:
+            month_state["candidate"] = candidate
+            month_state["observations"] = 1
+            month_state["run_observations"] = []
+        month_state["last_observed_at"] = now
+        month_state["source_post_id"] = selected.get("post_id")
+        month_state["matching_comment_count"] = selected.get("matching_comment_count")
+        month_state["distinct_author_count"] = selected.get("distinct_author_count")
+        month_state["run_observations"].append(
+            {
+                "observed_at": now,
+                "candidate": candidate,
+                "post_id": selected.get("post_id"),
+                "matching_comment_count": selected.get("matching_comment_count"),
+                "distinct_author_count": selected.get("distinct_author_count"),
+            }
+        )
+        month_state["run_observations"] = month_state["run_observations"][-required:]
+        if int(month_state["observations"]) >= required:
+            month_state["status"] = "locked"
+            month_state["locked_at"] = month_state.get("locked_at") or now
+        else:
+            month_state["status"] = "observing"
+    else:
+        month_state["last_checked_at"] = now
+        month_state["status"] = "conflict" if month_state.get("candidate") else "observing"
+
+    after = json.dumps(state, ensure_ascii=False, sort_keys=True)
+    return state, before != after, month_state
+
+
 def build_payload(
     sources: dict,
     messages: list[TelegramMessage],
     signals: list[dict],
     group_probe: dict,
+    lock_state: dict,
+    discussion_runs: list[dict],
 ) -> dict:
     text_codes: dict[str, dict] = {}
     media_clues: dict[int, dict] = {}
     for signal in signals:
-        if signal["kind"] == "text_code":
+        if signal["kind"] in {"text_code", "comment_consensus"}:
             key = signal["code_normalized"]
             old = text_codes.get(key)
-            if old is None or (signal.get("published_at") or "", signal["post_id"]) > (
+            if old is None or (
+                signal.get("published_at") or "",
+                signal["post_id"],
+                signal.get("matching_comment_count", 0),
+            ) > (
                 old.get("published_at") or "",
                 old["post_id"],
+                old.get("matching_comment_count", 0),
             ):
                 text_codes[key] = signal
         elif signal["kind"] == "media_clue":
@@ -517,8 +641,14 @@ def build_payload(
     current_relevant.sort(key=lambda item: (item.get("published_at") or "", item["post_id"]), reverse=True)
     latest = (current_relevant or all_relevant or [None])[0]
 
-    if current_text_codes:
-        status = "text_candidates"
+    month_state = lock_state.get("months", {}).get(current_month_key(), {})
+    locked = month_state.get("status") == "locked"
+    if locked:
+        status = "locked"
+    elif current_text_codes:
+        status = "comment_candidates" if any(
+            signal.get("kind") == "comment_consensus" for signal in current_text_codes.values()
+        ) else "text_candidates"
     elif current_media_clues:
         status = "media_needs_manual_review"
     elif all_relevant:
@@ -539,32 +669,44 @@ def build_payload(
         }
 
     candidates = [signal_view(current_text_codes[key]) for key in sorted(current_text_codes)]
-    manual_review = [
+    # A media clue is unresolved only when no independent public-text
+    # candidate has been established for the current month.  Once the
+    # discussion consensus path succeeds, do not create a fake manual-review
+    # queue for the same post.
+    manual_review = [] if current_text_codes else [
         signal_view(current_media_clues[key]) for key in sorted(current_media_clues, reverse=True)
     ]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": status,
         "source": {
             "channel": sources["channel"]["username"],
             "history_url": sources["channel"]["history_url"],
-            "access": "anonymous_public_history",
-            "extraction": "rules_v1",
+            "access": "anonymous_public_history_and_discussion_widget",
+            "extraction": "rules_v2_public_discussion_consensus",
         },
         "scanned_message_count": len(messages),
         "historical_signal_count": len(all_relevant) - len(current_relevant),
         "latest_relevant_post": latest_post,
         "candidates": candidates,
         "manual_review": manual_review,
+        "lock": {
+            "month": current_month_key(),
+            "status": month_state.get("status", "observing"),
+            "candidate": month_state.get("candidate"),
+            "observations": month_state.get("observations", 0),
+            "required_observations": lock_state.get("lock_observations_required", 3),
+            "locked_at": month_state.get("locked_at"),
+        },
+        "discussion_runs": discussion_runs,
         "group_probe": group_probe,
         "non_goals": [
-            "no Telegram login or API token",
-            "no group join or comment interaction",
+            "no Telegram login, API credentials, cookies, or Session file",
+            "no group join or comment posting",
             "no OCR or image guessing",
             "no coupon validation, order creation, or redemption",
         ],
     }
-
 
 
 def write_json_if_changed(path: Path, payload: dict) -> bool:
@@ -582,9 +724,29 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--sources", type=Path, default=Path("sources.json"))
     parser.add_argument("--output", type=Path, default=Path("data/latest.json"))
     parser.add_argument("--history", type=Path, default=Path("data/history.jsonl"))
+    parser.add_argument("--state", type=Path, default=Path("data/state.json"))
+    parser.add_argument("--pokemon-names", type=Path, default=Path("data/pokemon_names_zh.json"))
     parser.add_argument("--max-messages", type=int, default=100)
     parser.add_argument("--max-pages", type=int, default=8)
+    parser.add_argument("--max-discussion-posts", type=int, default=3)
+    parser.add_argument("--max-comments", type=int, default=500)
+    parser.add_argument("--lock-observations", type=int, default=3)
+    parser.add_argument("--ignore-lock", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.lock_observations < 2:
+        raise ValueError("--lock-observations must be at least 2")
+    state = load_lock_state(args.state)
+    state["lock_observations_required"] = args.lock_observations
+    month_state = state.get("months", {}).get(current_month_key(), {})
+    if not args.ignore_lock and month_state.get("status") == "locked":
+        print(json.dumps({
+            "status": "locked_skip",
+            "month": current_month_key(),
+            "candidate": month_state.get("candidate"),
+            "observations": month_state.get("observations", 0),
+        }, ensure_ascii=False, sort_keys=True))
+        return 0
 
     sources = load_sources(args.sources)
     channel = sources["channel"]
@@ -592,20 +754,77 @@ def main(argv: list[str] | None = None) -> int:
         channel["history_url"], max_messages=args.max_messages, max_pages=args.max_pages
     )
     signals = [signal for message in messages for signal in extract_signals(message)]
+
+    pokemon_names = load_pokemon_names(args.pokemon_names)
+    message_by_id = {message.post_id: message for message in messages}
+    target_ids = []
+    for signal in signals:
+        if signal.get("kind") == "media_clue" and signal_freshness(signal) == "current_month":
+            if signal["post_id"] not in target_ids:
+                target_ids.append(signal["post_id"])
+    target_ids = target_ids[: max(0, args.max_discussion_posts)]
+
+    discussion_signals: list[dict] = []
+    discussion_runs: list[dict] = []
+    for post_id in target_ids:
+        message = message_by_id[post_id]
+        discussion = collect_public_discussion(
+            channel["username"], post_id, max_comments=args.max_comments
+        )
+        consensus = extract_comment_consensus(
+            discussion,
+            post_id=post_id,
+            post_url=message.source_url,
+            published_at=message.published_at,
+            pokemon_names=pokemon_names,
+        )
+        discussion_signals.extend(consensus)
+        discussion_runs.append({
+            "post_id": post_id,
+            "source_url": message.source_url,
+            "available": discussion.get("available", False),
+            "error": discussion.get("error"),
+            "comment_count": discussion.get("comment_count"),
+            "loaded_count": discussion.get("loaded_count", 0),
+            "pages": discussion.get("pages", 0),
+            "truncated": discussion.get("truncated", False),
+            "consensus": [
+                {
+                    "code": row["code"],
+                    "matching_comment_count": row.get("matching_comment_count"),
+                    "distinct_author_count": row.get("distinct_author_count"),
+                }
+                for row in consensus
+            ],
+        })
+
+    all_signals = signals + discussion_signals
     group = sources["group"]
     group_probe = probe_group_public_preview(group["profile_url"], group["history_url"])
-    new_history = append_history(args.history, signals)
-    payload = build_payload(sources, messages, signals, group_probe)
+    state, state_changed, month_state = update_lock_state(
+        state, all_signals, args.lock_observations
+    )
+    if state_changed:
+        write_json_if_changed(args.state, state)
+    new_history = append_history(args.history, all_signals)
+    payload = build_payload(
+        sources, messages, all_signals, group_probe, state, discussion_runs
+    )
     changed = write_json_if_changed(args.output, payload)
 
     summary = {
         "status": payload["status"],
         "scanned_messages": len(messages),
         "pages": pages,
-        "signals": len(signals),
+        "signals": len(all_signals),
+        "discussion_posts": len(target_ids),
         "new_history_records": new_history,
+        "state_changed": state_changed,
         "latest_json_changed": changed,
         "group_status": group_probe["status"],
+        "lock_status": month_state.get("status"),
+        "lock_candidate": month_state.get("candidate"),
+        "lock_observations": month_state.get("observations", 0),
         "visited_pages": visited_urls,
     }
     print(json.dumps(summary, ensure_ascii=False, sort_keys=True))

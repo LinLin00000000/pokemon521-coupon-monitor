@@ -1,50 +1,88 @@
 # 宝可梦 521 兑换码监测器
 
-一个尽量小的、只读的 GitHub Actions 项目：定时读取公开 Telegram 通知频道 `@pokemon521`，提取明文兑换码；如果兑换码只出现在图片中，则保存图片链接和帖子证据，标记为人工复核。
+一个尽量小的、只读的 GitHub Actions 项目：读取公开 Telegram 通知频道 `@pokemon521`，并在活动帖启用公开 Discussion Widget 时统计评论共识，提取当月兑换码候选。
 
-它**不会**登录 Telegram、加入交流群、调用 Telegram API、调用官网优惠码接口，也不会自动兑换。
+它不会登录 Telegram、加入交流群、创建机器人、使用 Telegram API 凭据、保存 Cookie/Session，也不会调用官网优惠码接口或自动兑换。
 
 ## 当前验证结果
 
-本项目在 2026-08-06 用匿名公开网页测试过两个入口：
+2026-08-17 对活动帖 [`pokemon521/395`](https://t.me/pokemon521/395) 做了真实匿名 HTTPS 测试：
 
-| 入口 | 匿名结果 | 结论 |
-|---|---|---|
-| [`t.me/s/pokemon521`](https://t.me/s/pokemon521) | HTTP 200；页面包含 `data-post`、`<time datetime>`、帖子正文和公开图片 URL；`?before=<id>` 可以读取更早窗口 | **可以无 Token 读取频道历史** |
-| [`t.me/pokemon_love`](https://t.me/pokemon_love) | HTTP 200，但只是群组简介/成员信息 | **可以无 Token 读取简介，不能从公开预览读取聊天历史** |
-| [`t.me/s/pokemon_love`](https://t.me/s/pokemon_love) | HTTP 200 后解析到 `t.me/pokemon_love`，没有帖子记录 | 不作为匿名聊天记录源 |
+| 数据 | 实际结果 | 结论 |
+|---|---:|---|
+| 通知频道公开历史 | 85 条可见帖子，5 个 `?before=` 页面 | 可以匿名读取 |
+| 帖子 395 的公开 Discussion Widget | 286 条评论，6 页 | 可以匿名读取评论 |
+| 规范化后完全/语义简化为“飞天螳螂”的答案 | 55 条 | 形成强候选 |
+| 带公开用户链接的不同评论者下限 | 25 人 | 超过 3 人共识门槛 |
+| `@pokemon_love` 公开预览 | 只有群简介，没有聊天历史 | 不作为匿名历史源 |
 
-频道公开预览中，当前活动帖子会提供“兑换码藏在图片中”的说明和图片，但测试页面没有公开评论记录链接。因此 v1 不假设能从网页读取频道评论，也不尝试绕过 Telegram 的访问边界。
+评论读取使用的是 Telegram 网页公开的 Discussion Widget：先 GET 活动帖的 `?embed=1&discussion=1` 页面，再使用页面公开返回的 `loadComments` 分页参数读取更早评论。这里没有 Telegram 登录态、Bot Token、API ID/API Hash、Cookie 或 Session。
 
-## 为什么 v1 选择规则匹配
+当前运行结果不会把用户名、评论全文或个人资料写入仓库，只保存评论总数、匹配数量、公开用户链接支持数下限和少量公开评论 ID 作为审计线索。
 
-| 方案 | 优点 | 局限 | 本项目决定 |
-|---|---|---|---|
-| 字符串/规则匹配 | 无 AI Token；无第三方数据外传；确定性强；Actions 轻量；容易审计和去重 | 只能可靠提取正文中明确写出的码；图片中的码只能标记 | **默认主链路** |
-| 近百条记录 + AI 小模型 | 能理解上下文、处理一些不规则表达；未来可辅助 OCR 结果筛选 | 不能解决交流群匿名不可见的问题；需要模型 API Key 或把模型装进 Runner；有成本、延迟、幻觉和数据外传风险 | **暂不启用，保留未来适配点** |
+## 自动确认策略
 
-近百条消息的抓取仍然保留在 v1：每次最多分页抓取 100 条公开频道帖子，但只把“候选码”和“需要人工复核的图片线索”写入数据，不保存完整聊天记录。
+当前默认门槛是：
+
+1. 活动帖属于当前月份，并且是图片猜码/兑换码活动；
+2. 只从评论中提取已知宝可梦中文名称，避免把“官网”等普通高频词误判为答案；
+3. 至少 3 条匹配评论；
+4. 至少 3 个带公开资料链接的不同评论者支持；
+5. 同一候选在 3 次独立监测运行中保持一致后，写入 `data/state.json` 并锁定；
+6. 锁定后后续定时运行直接跳过 Telegram 抓取，避免全年重复请求。
+
+因此，第一次看到强共识时状态是 `comment_candidates`，不是立即宣称最终确认。状态锁达到 3 次后才是 `locked`。
+
+## 调度
+
+GitHub Actions 使用 UTC：
+
+```text
+每月 1～7 日：00:17、04:17、08:17、12:17、16:17、20:17 UTC
+```
+
+每天 6 次只发生在月初 7 天；其余日期不按 cron 运行。仍保留 `workflow_dispatch` 供手动触发。并发运行不会互相取消，避免状态锁计数丢失。
+
+## 状态含义
+
+`data/latest.json` 的 `status`：
+
+- `comment_candidates`：公开评论已形成符合门槛的候选，但尚未完成 3 次独立运行锁定。
+- `locked`：当前月份候选已通过状态锁；后续运行会跳过抓取。
+- `text_candidates`：本月公开正文中发现明确兑换码候选，但尚未完成锁定；不代表官网有效。
+- `media_needs_manual_review`：发现图片活动，但目前没有足够的公开评论共识或明文候选。
+- `historical_only`：只发现旧月份信号，不把旧码放入当前候选。
+- `no_relevant_posts`：扫描窗口内没有相关信号。
+
+当前示例数据是 2026 年 8 月活动帖 395 的 `comment_candidates`，候选为 `飞天螳螂`，状态锁为第 1/3 次观察。它不是官网接口验证结果；用户仍然人工登录兑换。
 
 ## 仓库结构
 
 ```text
 .
-├── monitor.py                    # 标准库实现的抓取、解析、规则提取
-├── sources.json                  # 公开源配置，不含凭据
+├── monitor.py                         # 频道抓取、规则提取、状态锁、输出
+├── discussion.py                      # 匿名 Discussion Widget 分页与评论共识
+├── sources.json                       # 公开源配置，不含凭据
 ├── data/
-│   ├── latest.json               # 当前月份候选/图片线索，固定 raw URL
-│   └── history.jsonl             # 去重后的历史信号，保留来源证据
-├── tests/test_monitor.py         # 离线解析、提取、分页和幂等测试
-└── .github/workflows/monitor.yml # 每 6 小时运行，只有数据变化才提交
+│   ├── latest.json                    # 当前机器可读结果
+│   ├── history.jsonl                  # 去重后的历史信号
+│   ├── state.json                     # 月份候选的跨运行锁状态
+│   └── pokemon_names_zh.json          # 静态宝可梦中文名称集合
+├── tests/test_monitor.py              # 频道解析、规则、分页和幂等测试
+├── tests/test_discussion.py           # 评论解析、名称过滤和作者下限测试
+└── .github/workflows/monitor.yml      # 月初 7 天高频运行
 ```
+
+`pokemon_names_zh.json` 的名称集合来自公开项目 [`42arch/pokemon-dataset-zh`](https://github.com/42arch/pokemon-dataset-zh)，仅作为本地候选过滤词表；运行时不依赖该项目的在线 API。
 
 ## 使用
 
-本地运行不需要任何 Python 第三方依赖：
+本地运行不需要 Python 第三方依赖：
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 monitor.py --max-messages 100 --max-pages 8
+python3 monitor.py --max-messages 100 --max-pages 8 \
+  --max-discussion-posts 3 --max-comments 500 --lock-observations 3
 ```
 
 如果当前网络需要代理，在命令前设置标准环境变量即可：
@@ -66,36 +104,39 @@ permissions:
 
 ## 固定资源 URL
 
-仓库发布后，机器可读的当前结果是：
+仓库地址：
 
 ```text
-https://raw.githubusercontent.com/<owner>/pokemon521-coupon-monitor/main/data/latest.json
+https://github.com/LinLin00000000/pokemon521-coupon-monitor
 ```
 
-历史记录是：
+当前机器可读结果：
 
 ```text
-https://raw.githubusercontent.com/<owner>/pokemon521-coupon-monitor/main/data/history.jsonl
+https://raw.githubusercontent.com/LinLin00000000/pokemon521-coupon-monitor/main/data/latest.json
 ```
 
-`latest.json` 的 `status` 含义：
+历史记录：
 
-- `text_candidates`：本月公开正文中发现了明确兑换码候选；仍不代表官网有效。
-- `media_needs_manual_review`：本月发现活动图片线索，但没有猜码或 OCR；打开 `manual_review` 中的帖子/图片人工判断。
-- `historical_only`：只发现旧月份信号，不把旧码放入当前候选。
-- `no_relevant_posts`：扫描窗口内没有相关信号。
+```text
+https://raw.githubusercontent.com/LinLin00000000/pokemon521-coupon-monitor/main/data/history.jsonl
+```
 
-当前真实扫描结果是 `media_needs_manual_review`：帖子 [`pokemon521/395`](https://t.me/pokemon521/395) 被识别为本月图片线索；交流群探测结果为 `profile_only`。历史文件中的旧码不能视为当前有效码。
+## `@pokemon_love` 与 Session
+
+当前主链路不需要 Session：通知群活动帖的公开评论已经能提供足够强的兑换码共识。
+
+`@pokemon_love` 仍然只有公开简介入口，不能通过匿名 `t.me/s` 页面取得完整聊天历史。如果未来要利用那里更早或更分散的兑换码线索，应做成单独的本地/私有读取器：Session 只能由用户在真实终端登录后产生，不能提交到 GitHub、不能写入公开数据，也不能放进公共 Actions。它是备用增强路径，不是当前自动确认的前置条件。
 
 ## 安全边界
 
 - 不保存 Telegram Bot Token、API ID/API Hash、登录 Session、Cookie 或官网凭据。
-- 不加入 `@pokemon_love`，不启动机器人，不读取私有消息。
-- 不调用官网的优惠码校验、订单创建、支付或兑换接口。
-- 不自动 OCR、猜测图片文字或批量尝试宝可梦名称。
-- GitHub Actions 只提交 `data/latest.json` 和 `data/history.jsonl` 的内容变化。
-
-如果以后确实需要 AI，建议作为单独的可选步骤：先由规则链路筛出少量相关帖子，再把最小化文本窗口送到明确配置的模型适配器；不要默认把近百条原始消息和图片发送到第三方服务。AI 也不能替代交流群的访问权限。
+- 不加入 `@pokemon_love`，不启动机器人，不读取未公开消息。
+- 只调用公开网页和公开 Discussion Widget，不调用需要认证的 Telegram MTProto/Bot API。
+- 不调用官网优惠码校验、订单创建、支付或兑换接口。
+- 不自动 OCR、猜测图片文字或批量尝试兑换码。
+- 评论证据只保存聚合统计，不保存评论全文、用户名或用户 ID。
+- GitHub Actions 只提交 `data/latest.json`、`data/history.jsonl` 和 `data/state.json` 的内容变化。
 
 ## License
 

@@ -1,8 +1,10 @@
 name: Monitor public Telegram sources
 
 on:
+  # GitHub Actions cron uses UTC. Six runs/day during days 1-7 is
+  # intentionally limited to the monthly activity window.
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 0,4,8,12,16,20 1-7 * *"
   workflow_dispatch:
 
 permissions:
@@ -10,7 +12,7 @@ permissions:
 
 concurrency:
   group: pokemon521-monitor
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   monitor:
@@ -26,17 +28,17 @@ jobs:
           python-version: "3.11"
 
       - name: Run read-only monitor
-        run: python monitor.py --max-messages 100 --max-pages 8
+        run: python monitor.py --max-messages 100 --max-pages 8 --max-discussion-posts 3 --max-comments 500 --lock-observations 3
 
       - name: Publish changed data only
         shell: bash
         run: |
-          if git diff --quiet -- data/latest.json data/history.jsonl; then
+          if git diff --quiet -- data/latest.json data/history.jsonl data/state.json; then
             echo "No data changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/latest.json data/history.jsonl
+          git add data/latest.json data/history.jsonl data/state.json
           git commit -m "chore: update public coupon scan"
           git push

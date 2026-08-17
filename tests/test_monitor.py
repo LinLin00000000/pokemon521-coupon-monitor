@@ -72,6 +72,25 @@ class MonitorTests(unittest.TestCase):
             rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 2)
 
+    def test_state_lock_requires_three_independent_observations(self):
+        month = monitor.current_month_key()
+        signal = {
+            "kind": "comment_consensus",
+            "code": "飞天螳螂",
+            "code_normalized": "飞天螳螂",
+            "post_id": 395,
+            "published_at": f"{month}-01T00:00:00+00:00",
+            "distinct_author_count": 25,
+            "matching_comment_count": 55,
+        }
+        state = {"schema_version": 1, "lock_observations_required": 3, "months": {}}
+        for expected in (1, 2, 3):
+            state, changed, month_state = monitor.update_lock_state(state, [signal], 3)
+            self.assertTrue(changed)
+            self.assertEqual(month_state["observations"], expected)
+        self.assertEqual(month_state["status"], "locked")
+        self.assertEqual(month_state["candidate"], "飞天螳螂")
+
 
 if __name__ == "__main__":
     unittest.main()

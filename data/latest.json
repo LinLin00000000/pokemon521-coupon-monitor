@@ -1,5 +1,50 @@
 {
-  "candidates": [],
+  "candidates": [
+    {
+      "author_identity": "public_profile_link_lower_bound",
+      "code": "飞天螳螂",
+      "code_normalized": "飞天螳螂",
+      "comment_count": 286,
+      "distinct_author_count": 25,
+      "evidence": "公开讨论共 286 条评论；规范化后有 55 条答案一致，至少 25 个公开用户链接支持。",
+      "extraction_method": "discussion_widget_consensus_v1",
+      "freshness": "current_month",
+      "kind": "comment_consensus",
+      "loaded_comment_count": 286,
+      "matching_comment_count": 55,
+      "matching_comment_id_sample": [
+        827892,
+        827893,
+        827910,
+        827976,
+        828241
+      ],
+      "media_urls": [],
+      "needs_manual_review": false,
+      "post_id": 395,
+      "published_at": "2026-08-01T03:44:06+00:00",
+      "source_url": "https://t.me/pokemon521/395"
+    }
+  ],
+  "discussion_runs": [
+    {
+      "available": true,
+      "comment_count": 286,
+      "consensus": [
+        {
+          "code": "飞天螳螂",
+          "distinct_author_count": 25,
+          "matching_comment_count": 55
+        }
+      ],
+      "error": null,
+      "loaded_count": 286,
+      "pages": 6,
+      "post_id": 395,
+      "source_url": "https://t.me/pokemon521/395",
+      "truncated": false
+    }
+  ],
   "group_probe": {
     "access": "anonymous_public_preview",
     "attempts": [
@@ -25,45 +70,36 @@
   },
   "historical_signal_count": 7,
   "latest_relevant_post": {
-    "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
+    "evidence": "公开讨论共 286 条评论；规范化后有 55 条答案一致，至少 25 个公开用户链接支持。",
     "freshness": "current_month",
-    "media_urls": [
-      "https://cdn4.telesco.pe/file/bZg0wyL-S-hy0mow-3VagnGZwbli2ni6oZBkTsgEo46HEaz3Ob_nyuEJMHw9qoP0ZemARfozBH3vThJHigjELAHaA4FscF8dxcc0OLavwA0jdrakOl4eBuc1BJg0tbCKrstvE4jZ0CCy5KmTsqoMuhPXdUapz1ck48vQIg5rhArwmUEdqYwOq4KU9P3K6fsMTTMJimvq6NzXQa45Fno_1QhW-eqkn86kV9GLA2uUtc0_mivH1MWrTS9GwFWsZvnTxPag_rfgpBaV5oiB_qZaSZ7IAcQmtLyUgRabAfuAlYFKor3DX2wuklsy6cDVzdT8ce0pjxY7xuNIeD9Lc_osuw.jpg"
-    ],
+    "media_urls": [],
     "post_id": 395,
     "published_at": "2026-08-01T03:44:06+00:00",
-    "signal_kind": "media_clue",
+    "signal_kind": "comment_consensus",
     "source_url": "https://t.me/pokemon521/395"
   },
-  "manual_review": [
-    {
-      "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
-      "extraction_method": "media_presence_rule_v1",
-      "freshness": "current_month",
-      "kind": "media_clue",
-      "media_urls": [
-        "https://cdn4.telesco.pe/file/bZg0wyL-S-hy0mow-3VagnGZwbli2ni6oZBkTsgEo46HEaz3Ob_nyuEJMHw9qoP0ZemARfozBH3vThJHigjELAHaA4FscF8dxcc0OLavwA0jdrakOl4eBuc1BJg0tbCKrstvE4jZ0CCy5KmTsqoMuhPXdUapz1ck48vQIg5rhArwmUEdqYwOq4KU9P3K6fsMTTMJimvq6NzXQa45Fno_1QhW-eqkn86kV9GLA2uUtc0_mivH1MWrTS9GwFWsZvnTxPag_rfgpBaV5oiB_qZaSZ7IAcQmtLyUgRabAfuAlYFKor3DX2wuklsy6cDVzdT8ce0pjxY7xuNIeD9Lc_osuw.jpg"
-      ],
-      "needs_manual_review": true,
-      "post_id": 395,
-      "published_at": "2026-08-01T03:44:06+00:00",
-      "reason": "活动文字存在，但兑换码可能只写在图片中；未进行 OCR 或猜码。",
-      "source_url": "https://t.me/pokemon521/395"
-    }
-  ],
+  "lock": {
+    "candidate": "飞天螳螂",
+    "locked_at": null,
+    "month": "2026-08",
+    "observations": 2,
+    "required_observations": 3,
+    "status": "observing"
+  },
+  "manual_review": [],
   "non_goals": [
-    "no Telegram login or API token",
-    "no group join or comment interaction",
+    "no Telegram login, API credentials, cookies, or Session file",
+    "no group join or comment posting",
     "no OCR or image guessing",
     "no coupon validation, order creation, or redemption"
   ],
-  "scanned_message_count": 83,
-  "schema_version": 1,
+  "scanned_message_count": 85,
+  "schema_version": 2,
   "source": {
-    "access": "anonymous_public_history",
+    "access": "anonymous_public_history_and_discussion_widget",
     "channel": "pokemon521",
-    "extraction": "rules_v1",
+    "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "media_needs_manual_review"
+  "status": "comment_candidates"
 }
