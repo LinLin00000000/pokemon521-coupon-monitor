@@ -84,6 +84,18 @@ class MonitorTests(unittest.TestCase):
         self.assertIn("飞天螳螂", names)
         self.assertIn("厄诡椪", names)
 
+    def test_group_probe_uses_configured_username(self):
+        def fake_fetch(url):
+            return monitor.FetchResult(url, 200, url, "text/html", "<html></html>")
+
+        result = monitor.probe_group_public_preview(
+            "example_group",
+            "https://t.me/example_group",
+            "https://t.me/s/example_group",
+            fetcher=fake_fetch,
+        )
+        self.assertEqual(result["username"], "example_group")
+
     def test_state_lock_requires_three_independent_observations(self):
         month = monitor.current_month_key()
         signal = {
@@ -102,6 +114,29 @@ class MonitorTests(unittest.TestCase):
             self.assertEqual(month_state["observations"], expected)
         self.assertEqual(month_state["status"], "locked")
         self.assertEqual(month_state["candidate"], "飞天螳螂")
+
+    def test_state_lock_resets_after_a_non_consensus_run(self):
+        month = monitor.current_month_key()
+        signal = {
+            "kind": "comment_consensus",
+            "code": "飞天螳螂",
+            "code_normalized": "飞天螳螂",
+            "post_id": 395,
+            "published_at": f"{month}-01T00:00:00+00:00",
+            "distinct_author_count": 25,
+            "matching_comment_count": 55,
+        }
+        state = {
+            "schema_version": 1,
+            "lock_observations_required": 3,
+            "months": {},
+        }
+        state, _, month_state = monitor.update_lock_state(state, [signal], 3)
+        state, _, month_state = monitor.update_lock_state(state, [], 3)
+        self.assertEqual(month_state["status"], "conflict")
+        self.assertEqual(month_state["observations"], 0)
+        state, _, month_state = monitor.update_lock_state(state, [signal], 3)
+        self.assertEqual(month_state["observations"], 1)
 
 
 if __name__ == "__main__":

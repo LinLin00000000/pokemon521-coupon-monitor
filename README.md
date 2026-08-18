@@ -12,6 +12,18 @@
 https://raw.githubusercontent.com/LinLin00000000/pokemon521-coupon-monitor/main/data/latest.json
 ```
 
+国内网络可使用 JSDMirror 备用镜像：
+
+```text
+https://cdn.jsdmirror.com/gh/LinLin00000000/pokemon521-coupon-monitor@main/data/latest.json
+```
+
+```bash
+curl -fsSL 'https://cdn.jsdmirror.com/gh/LinLin00000000/pokemon521-coupon-monitor@main/data/latest.json' | jq .
+```
+
+镜像是第三方缓存，可能比 GitHub raw 稍晚更新；raw URL 仍是权威源，镜像只用于 raw 无法访问时的只读回退。不要通过镜像发送凭据或访问私有仓库。
+
 README 不复制当前兑换码，避免 README 与机器数据出现两个真源。GitHub Actions 只更新数据文件，不需要同步修改文档。
 
 ### 接入方式

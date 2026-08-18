@@ -26,7 +26,7 @@ from discussion import (
     load_pokemon_names,
 )
 
-USER_AGENT = "pokemon521-coupon-monitor/0.1 (+https://github.com/)"
+USER_AGENT = "pokemon521-coupon-monitor/0.2 (+https://github.com/)"
 ACTIVITY_TERMS = (
     "兑换码",
     "优惠码",
@@ -388,6 +388,7 @@ def collect_public_channel(
 
 
 def probe_group_public_preview(
+    username: str,
     profile_url: str,
     history_url: str,
     fetcher: Callable[[str], FetchResult] = fetch_url,
@@ -407,7 +408,7 @@ def probe_group_public_preview(
         )
     has_history = any(item["message_count"] > 0 for item in attempts)
     return {
-        "username": "pokemon_love",
+        "username": username,
         "status": "public_history" if has_history else "profile_only",
         "access": "anonymous_public_preview",
         "history_available_without_token": has_history,
@@ -595,6 +596,10 @@ def update_lock_state(state: dict, signals: list[dict], required: int) -> tuple[
     else:
         month_state["last_checked_at"] = now
         month_state["status"] = "conflict" if month_state.get("candidate") else "observing"
+        # A failed or conflicting run breaks consecutive agreement. Do not
+        # carry old observations into a later lock decision.
+        month_state["observations"] = 0
+        month_state["run_observations"] = []
 
     after = json.dumps(state, ensure_ascii=False, sort_keys=True)
     return state, before != after, month_state
@@ -800,7 +805,9 @@ def main(argv: list[str] | None = None) -> int:
 
     all_signals = signals + discussion_signals
     group = sources["group"]
-    group_probe = probe_group_public_preview(group["profile_url"], group["history_url"])
+    group_probe = probe_group_public_preview(
+        group["username"], group["profile_url"], group["history_url"]
+    )
     state, state_changed, month_state = update_lock_state(
         state, all_signals, args.lock_observations
     )

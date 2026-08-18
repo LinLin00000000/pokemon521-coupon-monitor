@@ -1,7 +1,4 @@
-import json
-import tempfile
 import unittest
-from pathlib import Path
 
 from discussion import extract_comment_consensus, parse_discussion_html
 
@@ -49,10 +46,7 @@ class DiscussionTests(unittest.TestCase):
         self.assertIsNotNone(parsed["comments"][0].author_key)
 
     def test_consensus_requires_known_name_and_distinct_public_authors(self):
-        with tempfile.TemporaryDirectory() as directory:
-            names_path = Path(directory) / "names.json"
-            names_path.write_text(json.dumps({"names": ["飞天螳螂"]}, ensure_ascii=False), encoding="utf-8")
-            names = {"飞天螳螂"}
+        names = {"飞天螳螂"}
         parsed = parse_discussion_html(HTML)
         signal = extract_comment_consensus(
             {"comments": parsed["comments"], "comment_count": 4, "loaded_count": 4},
