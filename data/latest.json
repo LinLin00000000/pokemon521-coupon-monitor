@@ -4,14 +4,14 @@
       "author_identity": "public_profile_link_lower_bound",
       "code": "吉利蛋",
       "code_normalized": "吉利蛋",
-      "comment_count": 37,
+      "comment_count": 51,
       "distinct_author_count": 5,
-      "evidence": "公开讨论共 37 条评论；规范化后有 5 条答案一致，至少 5 个公开用户链接支持。",
+      "evidence": "公开讨论共 51 条评论；规范化后有 8 条答案一致，至少 5 个公开用户链接支持。",
       "extraction_method": "discussion_widget_consensus_v1",
       "freshness": "current_month",
       "kind": "comment_consensus",
-      "loaded_comment_count": 35,
-      "matching_comment_count": 5,
+      "loaded_comment_count": 49,
+      "matching_comment_count": 8,
       "matching_comment_id_sample": [
         875398,
         875415,
@@ -29,17 +29,17 @@
   "discussion_runs": [
     {
       "available": true,
-      "comment_count": 37,
+      "comment_count": 51,
       "consensus": [
         {
           "code": "吉利蛋",
           "distinct_author_count": 5,
-          "matching_comment_count": 5
+          "matching_comment_count": 8
         }
       ],
       "error": null,
-      "loaded_count": 35,
-      "pages": 1,
+      "loaded_count": 49,
+      "pages": 2,
       "post_id": 408,
       "source_url": "https://t.me/pokemon521/408",
       "truncated": false
@@ -70,7 +70,7 @@
   },
   "historical_signal_count": 8,
   "latest_relevant_post": {
-    "evidence": "公开讨论共 37 条评论；规范化后有 5 条答案一致，至少 5 个公开用户链接支持。",
+    "evidence": "公开讨论共 51 条评论；规范化后有 8 条答案一致，至少 5 个公开用户链接支持。",
     "freshness": "current_month",
     "media_urls": [],
     "post_id": 408,
@@ -82,7 +82,7 @@
     "candidate": "吉利蛋",
     "locked_at": null,
     "month": "2026-09",
-    "observations": 1,
+    "observations": 2,
     "required_observations": 3,
     "status": "observing"
   },
