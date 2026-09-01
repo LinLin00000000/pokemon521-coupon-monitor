@@ -80,11 +80,11 @@
   },
   "lock": {
     "candidate": "吉利蛋",
-    "locked_at": null,
+    "locked_at": "2026-09-01T22:36:55+00:00",
     "month": "2026-09",
-    "observations": 2,
+    "observations": 3,
     "required_observations": 3,
-    "status": "observing"
+    "status": "locked"
   },
   "manual_review": [],
   "non_goals": [
@@ -101,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "comment_candidates"
+  "status": "locked"
 }

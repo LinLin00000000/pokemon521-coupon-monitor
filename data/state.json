@@ -38,9 +38,10 @@
       "candidate": "吉利蛋",
       "distinct_author_count": 5,
       "last_checked_at": "2026-09-01T05:09:38+00:00",
-      "last_observed_at": "2026-09-01T19:24:03+00:00",
+      "last_observed_at": "2026-09-01T22:36:55+00:00",
+      "locked_at": "2026-09-01T22:36:55+00:00",
       "matching_comment_count": 8,
-      "observations": 2,
+      "observations": 3,
       "run_observations": [
         {
           "candidate": "吉利蛋",
@@ -55,10 +56,17 @@
           "matching_comment_count": 8,
           "observed_at": "2026-09-01T19:24:03+00:00",
           "post_id": 408
+        },
+        {
+          "candidate": "吉利蛋",
+          "distinct_author_count": 5,
+          "matching_comment_count": 8,
+          "observed_at": "2026-09-01T22:36:55+00:00",
+          "post_id": 408
         }
       ],
       "source_post_id": 408,
-      "status": "observing"
+      "status": "locked"
     }
   },
   "schema_version": 1
