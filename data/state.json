@@ -33,6 +33,13 @@
       ],
       "source_post_id": 395,
       "status": "locked"
+    },
+    "2026-09": {
+      "candidate": null,
+      "last_checked_at": "2026-09-01T05:09:38+00:00",
+      "observations": 0,
+      "run_observations": [],
+      "status": "observing"
     }
   },
   "schema_version": 1
