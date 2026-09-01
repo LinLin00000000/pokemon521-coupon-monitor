@@ -1,6 +1,50 @@
 {
-  "candidates": [],
-  "discussion_runs": [],
+  "candidates": [
+    {
+      "author_identity": "public_profile_link_lower_bound",
+      "code": "吉利蛋",
+      "code_normalized": "吉利蛋",
+      "comment_count": 37,
+      "distinct_author_count": 5,
+      "evidence": "公开讨论共 37 条评论；规范化后有 5 条答案一致，至少 5 个公开用户链接支持。",
+      "extraction_method": "discussion_widget_consensus_v1",
+      "freshness": "current_month",
+      "kind": "comment_consensus",
+      "loaded_comment_count": 35,
+      "matching_comment_count": 5,
+      "matching_comment_id_sample": [
+        875398,
+        875415,
+        875470,
+        875655,
+        875861
+      ],
+      "media_urls": [],
+      "needs_manual_review": false,
+      "post_id": 408,
+      "published_at": "2026-09-01T11:22:49+00:00",
+      "source_url": "https://t.me/pokemon521/408"
+    }
+  ],
+  "discussion_runs": [
+    {
+      "available": true,
+      "comment_count": 37,
+      "consensus": [
+        {
+          "code": "吉利蛋",
+          "distinct_author_count": 5,
+          "matching_comment_count": 5
+        }
+      ],
+      "error": null,
+      "loaded_count": 35,
+      "pages": 1,
+      "post_id": 408,
+      "source_url": "https://t.me/pokemon521/408",
+      "truncated": false
+    }
+  ],
   "group_probe": {
     "access": "anonymous_public_preview",
     "attempts": [
@@ -26,21 +70,19 @@
   },
   "historical_signal_count": 8,
   "latest_relevant_post": {
-    "evidence": "🎁 八月限定兑换码活动开启!\n各位训练家,八月福利已经到达!\n本月兑换码藏在一张神秘图片中,需要大家仔细观察、开动脑筋,找到正确的兑换码后,即可前往官网兑换本月免费流量。\n🔍 活动玩法:\n查看活动图片 → 猜出隐藏兑换码 → 登录官网兑换流量,不要在兑换码处兑换,要点击购买入门精灵球优惠码那里填写。\n🎉 兑换成功后,可获得八月限定流量奖励。",
-    "freshness": "historical",
-    "media_urls": [
-      "https://cdn4.telesco.pe/file/DdOlZQ7SlZ2xKj0vMzm0SRidOSuGOmiOv11j22uvaOEjLqXaNxMTleGMrA_RkUDtL9JXjsJp4yXKIWFoXW3AWxkBdMaunmv5lyMmLxheZFgVZ2akwvLieN2NRTNlL1OA0CsifFfCm7fgPI5SDnqybpUiXlnIViRghZxVnj1bZ1JgJeJCL_UD21jrpgDLn6B3vnbmsEB45xdfMYQQMs4D5qbOeKIF-LycefEe3BGqsUWMsAxjEpF29ijdurNB3gADs5aQ8zwpC-D16QH70FUu3cg-DI3Hn1uU7VQIjOBftlFF6lo4pnHXTdCYJG6gyWPtJEApVWeWBsSN0bAb4wtYPg.jpg"
-    ],
-    "post_id": 395,
-    "published_at": "2026-08-01T03:44:06+00:00",
-    "signal_kind": "media_clue",
-    "source_url": "https://t.me/pokemon521/395"
+    "evidence": "公开讨论共 37 条评论；规范化后有 5 条答案一致，至少 5 个公开用户链接支持。",
+    "freshness": "current_month",
+    "media_urls": [],
+    "post_id": 408,
+    "published_at": "2026-09-01T11:22:49+00:00",
+    "signal_kind": "comment_consensus",
+    "source_url": "https://t.me/pokemon521/408"
   },
   "lock": {
-    "candidate": null,
+    "candidate": "吉利蛋",
     "locked_at": null,
     "month": "2026-09",
-    "observations": 0,
+    "observations": 1,
     "required_observations": 3,
     "status": "observing"
   },
@@ -51,7 +93,7 @@
     "no OCR or image guessing",
     "no coupon validation, order creation, or redemption"
   ],
-  "scanned_message_count": 84,
+  "scanned_message_count": 85,
   "schema_version": 2,
   "source": {
     "access": "anonymous_public_history_and_discussion_widget",
@@ -59,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "historical_only"
+  "status": "comment_candidates"
 }
