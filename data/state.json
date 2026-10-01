@@ -67,6 +67,13 @@
       ],
       "source_post_id": 408,
       "status": "locked"
+    },
+    "2026-10": {
+      "candidate": null,
+      "last_checked_at": "2026-10-01T05:55:34+00:00",
+      "observations": 0,
+      "run_observations": [],
+      "status": "observing"
     }
   },
   "schema_version": 1
