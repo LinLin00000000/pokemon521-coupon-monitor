@@ -69,10 +69,22 @@
       "status": "locked"
     },
     "2026-10": {
-      "candidate": null,
+      "candidate": "赫拉克罗斯",
+      "distinct_author_count": 3,
       "last_checked_at": "2026-10-01T15:27:28+00:00",
-      "observations": 0,
-      "run_observations": [],
+      "last_observed_at": "2026-10-01T21:02:06+00:00",
+      "matching_comment_count": 6,
+      "observations": 1,
+      "run_observations": [
+        {
+          "candidate": "赫拉克罗斯",
+          "distinct_author_count": 3,
+          "matching_comment_count": 6,
+          "observed_at": "2026-10-01T21:02:06+00:00",
+          "post_id": 445
+        }
+      ],
+      "source_post_id": 445,
       "status": "observing"
     }
   },

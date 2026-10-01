@@ -1,12 +1,44 @@
 {
-  "candidates": [],
+  "candidates": [
+    {
+      "author_identity": "public_profile_link_lower_bound",
+      "code": "赫拉克罗斯",
+      "code_normalized": "赫拉克罗斯",
+      "comment_count": 34,
+      "distinct_author_count": 3,
+      "evidence": "公开讨论共 34 条评论；规范化后有 6 条答案一致，至少 3 个公开用户链接支持。",
+      "extraction_method": "discussion_widget_consensus_v1",
+      "freshness": "current_month",
+      "kind": "comment_consensus",
+      "loaded_comment_count": 34,
+      "matching_comment_count": 6,
+      "matching_comment_id_sample": [
+        914820,
+        914830,
+        914833,
+        914929,
+        915284
+      ],
+      "media_urls": [],
+      "needs_manual_review": false,
+      "post_id": 445,
+      "published_at": "2026-10-01T13:18:45+00:00",
+      "source_url": "https://t.me/pokemon521/445"
+    }
+  ],
   "discussion_runs": [
     {
       "available": true,
-      "comment_count": 26,
-      "consensus": [],
+      "comment_count": 34,
+      "consensus": [
+        {
+          "code": "赫拉克罗斯",
+          "distinct_author_count": 3,
+          "matching_comment_count": 6
+        }
+      ],
       "error": null,
-      "loaded_count": 26,
+      "loaded_count": 34,
       "pages": 1,
       "post_id": 445,
       "source_url": "https://t.me/pokemon521/445",
@@ -38,40 +70,23 @@
   },
   "historical_signal_count": 10,
   "latest_relevant_post": {
-    "evidence": "🎁 十月庆典限定兑换码活动开启! ✨\n各位训练家,十月福利已经到达!🚀\n由于线路调整,如果您的地区使用入门套餐出现全部超时,建议适当升级套餐。您的地区属于高墙地区,可能无法直接使用直连!网络体验要求较高、追求稳定速度的训练家,也建议升级体验哦~ ⚡️\n🔍 活动玩法:\n查看图片 🖼️ → 仔细观察活动图片,猜出其中隐藏的神秘兑换码!\n登录官网 🌐 → 前往官网兑换本月免费流量。\n特别提示 ⚠️ → 请勿直接在常规兑换码框输入!请先选择购买【入门精灵球】套餐,在结账优惠码处填写…",
+    "evidence": "公开讨论共 34 条评论；规范化后有 6 条答案一致，至少 3 个公开用户链接支持。",
     "freshness": "current_month",
-    "media_urls": [
-      "https://cdn4.telesco.pe/file/QHDSQMrWYrW_JB5yataSKSAOwETGfCSlq9SuddjNqa4B34841rXUUoFQx3v4dhIJN8_MJcLUDLZccrsxAVynwFGDcIPHCi6z2rwhF7jxI2jqHC71gAVFdvlQzwBn_siwEwzN2EzFAs2XfoRDaTScOIvNyTxgchGnvOpDc1j1o2PccoZbfTcMZaniPMZGL6XPkkq3jtn1Nyn0hF_RGH0wvjUCQ-y7fwk11rONbBRKyfDQ1wrA_UwFrRxQK6ddLJbVSwfUyp4FpRCXJ9URungJWNCP94DXizI3rzuZoUkG0Ukv2hrfu1_UVAnJuISnXm1yv55Le6lePxifFIRxd-J6SA.jpg"
-    ],
+    "media_urls": [],
     "post_id": 445,
     "published_at": "2026-10-01T13:18:45+00:00",
-    "signal_kind": "media_clue",
+    "signal_kind": "comment_consensus",
     "source_url": "https://t.me/pokemon521/445"
   },
   "lock": {
-    "candidate": null,
+    "candidate": "赫拉克罗斯",
     "locked_at": null,
     "month": "2026-10",
-    "observations": 0,
+    "observations": 1,
     "required_observations": 3,
     "status": "observing"
   },
-  "manual_review": [
-    {
-      "evidence": "🎁 十月庆典限定兑换码活动开启! ✨\n各位训练家,十月福利已经到达!🚀\n由于线路调整,如果您的地区使用入门套餐出现全部超时,建议适当升级套餐。您的地区属于高墙地区,可能无法直接使用直连!网络体验要求较高、追求稳定速度的训练家,也建议升级体验哦~ ⚡️\n🔍 活动玩法:\n查看图片 🖼️ → 仔细观察活动图片,猜出其中隐藏的神秘兑换码!\n登录官网 🌐 → 前往官网兑换本月免费流量。\n特别提示 ⚠️ → 请勿直接在常规兑换码框输入!请先选择购买【入门精灵球】套餐,在结账优惠码处填写…",
-      "extraction_method": "media_presence_rule_v1",
-      "freshness": "current_month",
-      "kind": "media_clue",
-      "media_urls": [
-        "https://cdn4.telesco.pe/file/QHDSQMrWYrW_JB5yataSKSAOwETGfCSlq9SuddjNqa4B34841rXUUoFQx3v4dhIJN8_MJcLUDLZccrsxAVynwFGDcIPHCi6z2rwhF7jxI2jqHC71gAVFdvlQzwBn_siwEwzN2EzFAs2XfoRDaTScOIvNyTxgchGnvOpDc1j1o2PccoZbfTcMZaniPMZGL6XPkkq3jtn1Nyn0hF_RGH0wvjUCQ-y7fwk11rONbBRKyfDQ1wrA_UwFrRxQK6ddLJbVSwfUyp4FpRCXJ9URungJWNCP94DXizI3rzuZoUkG0Ukv2hrfu1_UVAnJuISnXm1yv55Le6lePxifFIRxd-J6SA.jpg"
-      ],
-      "needs_manual_review": true,
-      "post_id": 445,
-      "published_at": "2026-10-01T13:18:45+00:00",
-      "reason": "活动文字存在，但兑换码可能只写在图片中；未进行 OCR 或猜码。",
-      "source_url": "https://t.me/pokemon521/445"
-    }
-  ],
+  "manual_review": [],
   "non_goals": [
     "no Telegram login, API credentials, cookies, or Session file",
     "no group join or comment posting",
@@ -86,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "media_needs_manual_review"
+  "status": "comment_candidates"
 }
