@@ -4,14 +4,14 @@
       "author_identity": "public_profile_link_lower_bound",
       "code": "赫拉克罗斯",
       "code_normalized": "赫拉克罗斯",
-      "comment_count": 34,
-      "distinct_author_count": 3,
-      "evidence": "公开讨论共 34 条评论；规范化后有 6 条答案一致，至少 3 个公开用户链接支持。",
+      "comment_count": 40,
+      "distinct_author_count": 4,
+      "evidence": "公开讨论共 40 条评论；规范化后有 7 条答案一致，至少 4 个公开用户链接支持。",
       "extraction_method": "discussion_widget_consensus_v1",
       "freshness": "current_month",
       "kind": "comment_consensus",
-      "loaded_comment_count": 34,
-      "matching_comment_count": 6,
+      "loaded_comment_count": 40,
+      "matching_comment_count": 7,
       "matching_comment_id_sample": [
         914820,
         914830,
@@ -29,16 +29,16 @@
   "discussion_runs": [
     {
       "available": true,
-      "comment_count": 34,
+      "comment_count": 40,
       "consensus": [
         {
           "code": "赫拉克罗斯",
-          "distinct_author_count": 3,
-          "matching_comment_count": 6
+          "distinct_author_count": 4,
+          "matching_comment_count": 7
         }
       ],
       "error": null,
-      "loaded_count": 34,
+      "loaded_count": 40,
       "pages": 1,
       "post_id": 445,
       "source_url": "https://t.me/pokemon521/445",
@@ -70,7 +70,7 @@
   },
   "historical_signal_count": 10,
   "latest_relevant_post": {
-    "evidence": "公开讨论共 34 条评论；规范化后有 6 条答案一致，至少 3 个公开用户链接支持。",
+    "evidence": "公开讨论共 40 条评论；规范化后有 7 条答案一致，至少 4 个公开用户链接支持。",
     "freshness": "current_month",
     "media_urls": [],
     "post_id": 445,
@@ -82,7 +82,7 @@
     "candidate": "赫拉克罗斯",
     "locked_at": null,
     "month": "2026-10",
-    "observations": 1,
+    "observations": 2,
     "required_observations": 3,
     "status": "observing"
   },
