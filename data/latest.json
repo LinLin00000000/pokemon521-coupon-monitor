@@ -4,14 +4,14 @@
       "author_identity": "public_profile_link_lower_bound",
       "code": "赫拉克罗斯",
       "code_normalized": "赫拉克罗斯",
-      "comment_count": 40,
-      "distinct_author_count": 4,
-      "evidence": "公开讨论共 40 条评论；规范化后有 7 条答案一致，至少 4 个公开用户链接支持。",
+      "comment_count": 53,
+      "distinct_author_count": 5,
+      "evidence": "公开讨论共 53 条评论；规范化后有 9 条答案一致，至少 5 个公开用户链接支持。",
       "extraction_method": "discussion_widget_consensus_v1",
       "freshness": "current_month",
       "kind": "comment_consensus",
-      "loaded_comment_count": 40,
-      "matching_comment_count": 7,
+      "loaded_comment_count": 53,
+      "matching_comment_count": 9,
       "matching_comment_id_sample": [
         914820,
         914830,
@@ -29,17 +29,17 @@
   "discussion_runs": [
     {
       "available": true,
-      "comment_count": 40,
+      "comment_count": 53,
       "consensus": [
         {
           "code": "赫拉克罗斯",
-          "distinct_author_count": 4,
-          "matching_comment_count": 7
+          "distinct_author_count": 5,
+          "matching_comment_count": 9
         }
       ],
       "error": null,
-      "loaded_count": 40,
-      "pages": 1,
+      "loaded_count": 53,
+      "pages": 2,
       "post_id": 445,
       "source_url": "https://t.me/pokemon521/445",
       "truncated": false
@@ -70,7 +70,7 @@
   },
   "historical_signal_count": 10,
   "latest_relevant_post": {
-    "evidence": "公开讨论共 40 条评论；规范化后有 7 条答案一致，至少 4 个公开用户链接支持。",
+    "evidence": "公开讨论共 53 条评论；规范化后有 9 条答案一致，至少 5 个公开用户链接支持。",
     "freshness": "current_month",
     "media_urls": [],
     "post_id": 445,
@@ -80,11 +80,11 @@
   },
   "lock": {
     "candidate": "赫拉克罗斯",
-    "locked_at": null,
+    "locked_at": "2026-10-02T14:44:46+00:00",
     "month": "2026-10",
-    "observations": 2,
+    "observations": 3,
     "required_observations": 3,
-    "status": "observing"
+    "status": "locked"
   },
   "manual_review": [],
   "non_goals": [
@@ -101,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "comment_candidates"
+  "status": "locked"
 }

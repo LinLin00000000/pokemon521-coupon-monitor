@@ -70,11 +70,12 @@
     },
     "2026-10": {
       "candidate": "赫拉克罗斯",
-      "distinct_author_count": 4,
+      "distinct_author_count": 5,
       "last_checked_at": "2026-10-01T15:27:28+00:00",
-      "last_observed_at": "2026-10-02T05:38:27+00:00",
-      "matching_comment_count": 7,
-      "observations": 2,
+      "last_observed_at": "2026-10-02T14:44:46+00:00",
+      "locked_at": "2026-10-02T14:44:46+00:00",
+      "matching_comment_count": 9,
+      "observations": 3,
       "run_observations": [
         {
           "candidate": "赫拉克罗斯",
@@ -89,10 +90,17 @@
           "matching_comment_count": 7,
           "observed_at": "2026-10-02T05:38:27+00:00",
           "post_id": 445
+        },
+        {
+          "candidate": "赫拉克罗斯",
+          "distinct_author_count": 5,
+          "matching_comment_count": 9,
+          "observed_at": "2026-10-02T14:44:46+00:00",
+          "post_id": 445
         }
       ],
       "source_post_id": 445,
-      "status": "observing"
+      "status": "locked"
     }
   },
   "schema_version": 1
