@@ -4,13 +4,13 @@
       "author_identity": "public_profile_link_lower_bound",
       "code": "咕咕",
       "code_normalized": "咕咕",
-      "comment_count": 51,
+      "comment_count": 53,
       "distinct_author_count": 12,
-      "evidence": "公开讨论共 51 条评论；规范化后有 20 条答案一致，至少 12 个公开用户链接支持。",
+      "evidence": "公开讨论共 53 条评论；规范化后有 20 条答案一致，至少 12 个公开用户链接支持。",
       "extraction_method": "discussion_widget_consensus_v1",
       "freshness": "current_month",
       "kind": "comment_consensus",
-      "loaded_comment_count": 51,
+      "loaded_comment_count": 53,
       "matching_comment_count": 20,
       "matching_comment_id_sample": [
         955642,
@@ -29,7 +29,7 @@
   "discussion_runs": [
     {
       "available": true,
-      "comment_count": 51,
+      "comment_count": 53,
       "consensus": [
         {
           "code": "咕咕",
@@ -38,7 +38,7 @@
         }
       ],
       "error": null,
-      "loaded_count": 51,
+      "loaded_count": 53,
       "pages": 2,
       "post_id": 457,
       "source_url": "https://t.me/pokemon521/457",
@@ -70,7 +70,7 @@
   },
   "historical_signal_count": 11,
   "latest_relevant_post": {
-    "evidence": "公开讨论共 51 条评论；规范化后有 20 条答案一致，至少 12 个公开用户链接支持。",
+    "evidence": "公开讨论共 53 条评论；规范化后有 20 条答案一致，至少 12 个公开用户链接支持。",
     "freshness": "current_month",
     "media_urls": [],
     "post_id": 457,
@@ -80,11 +80,11 @@
   },
   "lock": {
     "candidate": "咕咕",
-    "locked_at": null,
+    "locked_at": "2026-11-01T20:30:21+00:00",
     "month": "2026-11",
-    "observations": 2,
+    "observations": 3,
     "required_observations": 3,
-    "status": "observing"
+    "status": "locked"
   },
   "manual_review": [],
   "non_goals": [
@@ -101,5 +101,5 @@
     "extraction": "rules_v2_public_discussion_consensus",
     "history_url": "https://t.me/s/pokemon521"
   },
-  "status": "comment_candidates"
+  "status": "locked"
 }
