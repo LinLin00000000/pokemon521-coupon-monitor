@@ -104,16 +104,23 @@
     },
     "2026-11": {
       "candidate": "咕咕",
-      "distinct_author_count": 7,
-      "last_observed_at": "2026-11-01T06:06:27+00:00",
-      "matching_comment_count": 10,
-      "observations": 1,
+      "distinct_author_count": 12,
+      "last_observed_at": "2026-11-01T15:10:15+00:00",
+      "matching_comment_count": 20,
+      "observations": 2,
       "run_observations": [
         {
           "candidate": "咕咕",
           "distinct_author_count": 7,
           "matching_comment_count": 10,
           "observed_at": "2026-11-01T06:06:27+00:00",
+          "post_id": 457
+        },
+        {
+          "candidate": "咕咕",
+          "distinct_author_count": 12,
+          "matching_comment_count": 20,
+          "observed_at": "2026-11-01T15:10:15+00:00",
           "post_id": 457
         }
       ],
