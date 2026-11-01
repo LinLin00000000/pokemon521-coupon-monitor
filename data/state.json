@@ -101,6 +101,24 @@
       ],
       "source_post_id": 445,
       "status": "locked"
+    },
+    "2026-11": {
+      "candidate": "咕咕",
+      "distinct_author_count": 7,
+      "last_observed_at": "2026-11-01T06:06:27+00:00",
+      "matching_comment_count": 10,
+      "observations": 1,
+      "run_observations": [
+        {
+          "candidate": "咕咕",
+          "distinct_author_count": 7,
+          "matching_comment_count": 10,
+          "observed_at": "2026-11-01T06:06:27+00:00",
+          "post_id": 457
+        }
+      ],
+      "source_post_id": 457,
+      "status": "observing"
     }
   },
   "schema_version": 1
